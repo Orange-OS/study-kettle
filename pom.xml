@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.study</groupId>
+  <artifactId>study-kettle</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>study-kettle</name>
+  <description>Java 嵌入式调用 Kettle(Pentaho Data Integration) 示例项目</description>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- PDI 版本号：jar 来自官方发行包 lib 目录 -->
+    <kettle.version>9.4.0.0-343</kettle.version>
+  </properties>
+
+  <dependencies>
+    <!-- ========== Kettle 本体 ==========
+         Pentaho 官方 Maven 仓库(repo.pentaho.com)已改为认证访问，无法直接引用。
+         以下 jar 取自 PDI 9.4 发行包的 lib 目录，先用 scripts/install-kettle-jars.cmd
+         安装到本地仓库，再正常声明依赖：
+             kettle-core / kettle-engine：核心引擎（含全部内置步骤与作业项）
+             metastore / pdi-engine-api / pentaho-registry / pentaho-encryption-support：配套组件
+    -->
+    <dependency>
+      <groupId>org.pentaho.di</groupId>
+      <artifactId>kettle-core</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho.di</groupId>
+      <artifactId>kettle-engine</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>metastore</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pdi-engine-api</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-registry</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-encryption-support</artifactId>
+      <version>${kettle.version}</version>
+    </dependency>
+
+    <!-- ========== Kettle 运行必需的第三方依赖（版本与 PDI 9.4 发行包 lib 对齐） ========== -->
+
+    <!-- 日志：Kettle 9.4 经 log4j-1.2-api 桥接到 log4j2 -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-1.2-api</artifactId>
+      <version>2.17.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.17.1</version>
+    </dependency>
+
+    <!-- commons 系列：Kettle 核心直接使用 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs2</artifactId>
+      <version>2.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.owasp.encoder</groupId>
+      <artifactId>encoder</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- mvn compile exec:java 一条命令运行演示程序 -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.study.kettle.KettleDemo</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
